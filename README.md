@@ -4,6 +4,7 @@ This repository is for implementation cronjob with go example
 
 ## dependency
 
+[gocron](https://github.com/go-co-op/gocron)
 ```shell=
 go get github.com/go-co-op/gocron/v2
 ```
