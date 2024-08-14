@@ -11,7 +11,18 @@ import (
 	"github.com/google/uuid"
 )
 
+func runAtSpecificTime(t time.Time, ch chan<- bool) {
+	log.Println("Goroutine starts!")
+	<-time.After(time.Until(t))
+	log.Println("Task is running!")
+	log.Println("Task completed!")
+	ch <- true
+}
 func main() {
+	// Specific time you want to run the code
+	runTime := time.Now().Add(5 * time.Second)
+	done := make(chan bool)
+	go runAtSpecificTime(runTime, done)
 	s, err := gocron.NewScheduler()
 	if err != nil {
 		log.Fatal(err)
@@ -124,8 +135,10 @@ func main() {
 		_ = s.Shutdown()
 		os.Exit(0)
 	}()
-
+	// Wait for the task to complete
+	<-done
 	for {
 
 	}
+
 }
